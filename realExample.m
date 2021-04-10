@@ -1,4 +1,5 @@
 % Real-world example, corresponding to the first part of 2.4.2
+% plot part of a real audio sample and the detection function
 clear; close
 x = audioread('source_Muss_l.wav'); x = x(:,1);
 % 2000 samples of audio file sampled at 44100
