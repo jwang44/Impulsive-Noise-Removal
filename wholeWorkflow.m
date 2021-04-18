@@ -10,7 +10,7 @@ Nh = Nw/4;  % hop size, 75% overlap
 K = 2;
 b = 20;
 
-[x,fs] = audioread('source_Muss_l.wav'); x = x(:,1);
+[x,fs] = audioread('source_Dipper.wav'); x = x(:,1);
 N = length(x);
 % pad Nw zeros before and after signal samples
 xPad = [zeros(Nw,1); x; zeros(Nw,1)];
@@ -21,7 +21,11 @@ Y = buffer(xRound,Nw,Nw-Nh, 'nodelay');
 % buffer for output
 result = zeros(size(Y));
 output = zeros(size(xRound));
-win = hamming(Nw);
+% win = hamming(Nw)/(4*0.54);
+
+q = 1:Nw;
+win = (0.54-0.46*cos(2*pi*(q'-1)/Nw))/(4*0.54);
+
 % detect the locations of corrupted samples (T) for each frame
 for m=1:size(Y,2)
     % get one frame
@@ -41,7 +45,7 @@ for m=1:size(Y,2)
     end
     % after detecting the locations T, we interpolate the samples
     frame(T) = NaN;
-    interp = fillgaps(frame);
+    interp = fillgaps(frame, Nw, p);
     interpWin = interp.*win;
     result(:,m) = interpWin;
 end
@@ -55,6 +59,7 @@ end
 % remove the padded samples
 output = output(Nw+1:end-((ceil((N+Nw)/Nh)*Nh)-N));
 
-% normalize the output before writing to wav file
-output = output/max(abs(output));
-audiowrite('Muss.wav', output, fs)
+% no need to normalize the output before writing to wav file
+% because we perfectly reconstruct the signal
+% output = output/max(abs(output));
+audiowrite('Dipper.wav', output, fs)
