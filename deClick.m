@@ -1,4 +1,4 @@
-% this script functionizes wholeWorkflow.m
+% This script functionizes wholeWorkflow.m
 % x -- audio signal, read from the audio file
 % K -- threshold parameter, default to 2
 % b -- fusion parameter, default to 20
@@ -28,7 +28,7 @@ win = hamming(Nw)/(4*0.54);
 for m=1:size(Y,2)
     % get one frame
     frame = Y(:,m);
-    % get AR parameters on each frame
+    % get AR parameters of each frame (Yule-walker)
     [A, e] = aryule(frame, p);
     % detection function
     d = filter(A, 1, frame);
@@ -38,7 +38,7 @@ for m=1:size(Y,2)
     thre = K*sqrt(e);
     % locations of corrupted samples
     T = d>=thre;
-    k = find(T);  % index of pos samples
+    k = find(T);  % index of positive samples
     for n=1:length(k)-1
         if k(n+1)-k(n) <= b
             T(k(n):k(n+1)) = 1;

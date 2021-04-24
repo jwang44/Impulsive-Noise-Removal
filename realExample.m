@@ -1,10 +1,12 @@
-% Real-world example, corresponding to the first part of 2.4.2
-% plot part of a real audio sample and the detection function
+% This script plots part of real-world audio example and the detection function
+% corresponding to the first part of 2.4.2
+
 clear; close
 x = audioread('source_Muss_l.wav'); x = x(:,1);
 % 2000 samples of audio file sampled at 44100
-x = x(1001:3000);
-subplot(2,1,1); plot(x)
+x = x(9001:11000);
+subplot(2,1,1); plot(x); xlabel('sample number'); ylabel('amplitude')
+title('Real corrupted signal')
 
 % assume maximum length of a burst
 Nmax = 50;
@@ -18,4 +20,5 @@ p = 3*Nmax + 2;
 d = filter(A, 1, x);
 d(1:p) = d(1:p)*0;  % d is only defined for t>p
 d = abs(d);
-subplot(2,1,2); plot(d)
+subplot(2,1,2); plot(d); xlabel('sample number'); ylabel('amplitude')
+title('Detection signal')

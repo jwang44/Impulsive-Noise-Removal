@@ -1,8 +1,12 @@
-% Variant2: for multiple bursts
+% For real-world audio example with multiple bursts, 
 % find all samples T exceeding the threshold
 % for any two samples in T, if abs(t2-t1)<b, we determine all samples in
 % between belong to noise
 % corresponding to 2.4.2 in the paper
+
+% This script plots the corrupted signal, the detection function, and the 
+% detected results corresponding to various values of params K and b
+
 clear; close
 x = audioread('source_Muss_l.wav'); x = x(:,1);
 % 2000 samples of audio file sampled at 44100

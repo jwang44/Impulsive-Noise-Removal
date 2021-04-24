@@ -1,5 +1,5 @@
-% whole workflow: deal with long real examples
-
+% Whole workflow: deal with long real examples
+% this script is functionized in deClick.m
 clear; close
 Nmax = 100; % in practice the maximum length of a burst is around 100
 p = 3*Nmax + 2;

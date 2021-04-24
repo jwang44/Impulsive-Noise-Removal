@@ -1,14 +1,17 @@
-% Variant1: for single bursts, only detect the first and last sample
-% that exceeds the threshold, and assume the samples in between are all
-% noise. 
-% This is an simple improvement on direct thresholding and only works well
-% when there is only one burst in the audio.
+% For single bursts, only detect the first and last sample that exceeds the
+% threshold, and assume the samples in between are all noise. 
+% This is a simple improvement on direct thresholding and works well
+% only when there is only one burst in the audio.
 % corresponding to 2.4.1 in the paper
+
+% This script plots the signal, the signal with noise, the detection 
+% function and the precision-recall curve
+
 clear; close
 s = audioread('acousticg.wav'); s = s(:,1);
 % 2000 samples of audio file sampled at 44100
 s = s(1:2000);
-subplot(3,1,1); plot(s)
+subplot(3,1,1); plot(s); xlabel('sample number'); ylabel('amplitude')
 
 % gaussian noise with a certain variance and length
 variance = 10^-3;
@@ -19,7 +22,7 @@ n = sqrt(variance)*randn(Nmax, 1);
 x = s;
 nOnset = round((length(s)-Nmax)/2);
 x(nOnset:nOnset+Nmax-1) = x(nOnset:nOnset+Nmax-1)+n;
-subplot(3,1,2); plot(x)
+subplot(3,1,2); plot(x); xlabel('sample number'); ylabel('amplitude')
 
 % estimate AR parameters
 p = 3*Nmax + 2;
@@ -30,7 +33,7 @@ p = 3*Nmax + 2;
 d = filter(A, 1, x);
 d(1:p) = d(1:p)*0;  % d is only defined for t>p
 d = abs(d);
-subplot(3,1,3); plot(d)
+subplot(3,1,3); plot(d); xlabel('sample number'); ylabel('amplitude')
 
 % detect impulsive noise with direct thresholding
 K = 0:10^-4:12;
@@ -63,5 +66,6 @@ end
 
 % plot the precision-recall curve
 figure
-plot(rs, ps); axis([0 1 0 1])
+plot(rs, ps); axis([0 1 0 1]); title('Precision-recall curve')
+xlabel('recall'); ylabel('precision')
 

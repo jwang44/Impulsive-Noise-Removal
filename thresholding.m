@@ -1,3 +1,4 @@
+% helper function that imposes the threshold on the detection function
 function pos = thresholding(d, thre, b)
 pos = d>=thre;
 k = find(pos);  % index of pos samples
