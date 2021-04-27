@@ -13,4 +13,6 @@ To make experiments easier, it is functionized in `deClick.m` and called in the 
 
 The other scripts in the repository are for various experiments and visualizing the results. 
 
+Some audio extracts corrupted by impulsive noise can be found here: http://www-sigproc.eng.cam.ac.uk/Main/SJGSpringer
 
+Feel free to download some of those audio files and play with the parameters in the code.
